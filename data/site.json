@@ -33,6 +33,11 @@
       "icon": "assets/img/GitHub.svg"
     },
     {
+      "name": "CTFtime",
+      "url": "https://ctftime.org/team/358850",
+      "icon": "assets/img/CTFtime.svg"
+    },
+    {
       "name": "SU page",
       "url": "https://manchesterstudentsunion.com/activities/view/hackchester"
     }
@@ -40,5 +45,9 @@
   "writeups": {
     "base": "https://raw.githubusercontent.com/Hackchester/writeups/main/",
     "repo": "https://github.com/Hackchester/writeups"
+  },
+  "ctftime": {
+    "team_id": 358850,
+    "url": "https://ctftime.org/team/358850"
   }
 }
