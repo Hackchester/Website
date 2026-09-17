@@ -520,8 +520,8 @@ main { flex: 1; padding-top: var(--nav-h); }
   background: #000;
   color: var(--fg);
   padding: 20px;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.45;
   overflow: hidden;
   cursor: pointer;
   transition: opacity .5s;
@@ -530,9 +530,9 @@ main { flex: 1; padding-top: var(--nav-h); }
 .boot pre { margin: 0; background: none; border: 0; padding: 0; white-space: pre-wrap; }
 .boot .ok     { color: var(--accent); }
 .boot .failed { color: var(--danger); }
-.boot .info   { color: var(--accent-2); }
+.boot .k      { color: var(--muted); }
 .boot__hint {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 20px;
   color: var(--muted);
