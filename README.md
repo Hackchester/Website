@@ -40,7 +40,7 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-`?noboot` on the home URL skips the boot splash. To test the writeups page
+`?noboot` on the home URL skips the boot splash, `?boot` forces it to replay. To test the writeups page
 against a local clone of the writeups repo, serve that clone with CORS enabled
 and run this once in the browser console:
 

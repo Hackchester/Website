@@ -1,7 +1,7 @@
 /* =========================================================================
    boot.js — the "Linux boot" splash on the home page.
    Plays once per browser session; any key / click / tap skips it.
-   ?noboot in the URL skips it too (handy when developing).
+   ?noboot in the URL skips it, ?boot forces a replay (handy when developing).
 
    Edit the SEQUENCE array to change what it prints. Each entry is
      [kind, text, delayAfterMs]
@@ -13,10 +13,12 @@
   const out = document.getElementById('boot-text');
   if (!el || !out) return;
 
+  // ?noboot skips the splash, ?boot forces it to replay (both handy when developing)
+  const q = new URLSearchParams(location.search);
   const KEY = 'hc-booted';
   let played = false;
   try { played = sessionStorage.getItem(KEY) === '1'; } catch (_) {}
-  if (played || HC.reducedMotion || location.search.includes('noboot')) return;
+  if (q.has('noboot') || (!q.has('boot') && (played || HC.reducedMotion))) return;
 
   const SEQUENCE = [
     ['raw',  'GRUB loading...',                                                              120],
