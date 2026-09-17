@@ -21,13 +21,44 @@ from datetime import datetime, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "data", "site.json")
 OUT = os.path.join(ROOT, "data", "ctftime.json")
+LOGO_DIR = os.path.join(ROOT, "assets", "img", "ctfs")
+LOGO_MAX_BYTES = 600_000
 UA = "Mozilla/5.0 (hackchester.net site builder; +https://github.com/Hackchester/website)"
 
 
-def get(url):
+def get(url, binary=False):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read().decode("utf-8")
+        data = r.read()
+        return data if binary else data.decode("utf-8")
+
+
+def fetch_logo(event_url):
+    """Download the event's logo into assets/img/ctfs/<id>.<ext> (once). Returns the site-relative path or None."""
+    event_id = event_url.rstrip("/").split("/")[-1]
+    os.makedirs(LOGO_DIR, exist_ok=True)
+    for f in os.listdir(LOGO_DIR):
+        if f.split(".")[0] == event_id:
+            return f"assets/img/ctfs/{f}"
+    try:
+        info = json.loads(get(f"https://ctftime.org/api/v1/events/{event_id}/"))
+        logo = info.get("logo") or ""
+        if not logo:
+            return None
+        ext = os.path.splitext(logo.split("?")[0])[1].lower() or ".png"
+        if ext not in (".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"):
+            return None
+        blob = get(logo, binary=True)
+        if len(blob) > LOGO_MAX_BYTES:
+            print(f"  skipping logo for {event_id}: {len(blob)} bytes")
+            return None
+        with open(os.path.join(LOGO_DIR, event_id + ext), "wb") as f:
+            f.write(blob)
+        print(f"  saved logo for {event_id} ({len(blob)} bytes)")
+        return f"assets/img/ctfs/{event_id}{ext}"
+    except Exception as e:  # a missing logo must never break the fetch
+        print(f"  logo for {event_id} failed: {e}")
+        return None
 
 
 def parse_events(page):
@@ -44,6 +75,7 @@ def parse_events(page):
                 "place": int(place),
                 "name": html.unescape(name).strip(),
                 "url": "https://ctftime.org" + path,
+                "logo": fetch_logo("https://ctftime.org" + path),
                 "points": float(pts),
                 "rating_points": round(float(rating), 3),
             })
