@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Hackchester</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <base href="/">
+</head>
+<body>
+<main id="main">
+  <div class="wrap section errpage">
+    <div class="code glitch" data-text="404">404</div>
+    <p><span class="danger">Segmentation fault</span> (core dumped)</p>
+    <p class="muted">the page you're looking for was moved, deleted, or never existed.<br>
+      <code id="path"></code></p>
+    <p style="margin-top:24px">
+      <a class="btn" href="index.html">cd ~</a>
+      <a class="btn btn--ghost" href="writeups.html">ls writeups/</a>
+    </p>
+  </div>
+</main>
+<script>document.getElementById('path').textContent = 'GET ' + location.pathname + ' → 404';</script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/terminal.js"></script>
+</body>
+</html>

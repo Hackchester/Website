@@ -1,18 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
-    <link rel="stylesheet" href="assets/css/boot.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackchester — Cyber Security Society, University of Manchester</title>
+  <meta name="description" content="Hackchester is the University of Manchester's cyber security society. Weekly workshops, CTFs, writeups and a community of hackers of all levels.">
+  <meta name="theme-color" content="#060909">
+  <meta property="og:title" content="Hackchester">
+  <meta property="og:description" content="Cyber Security Society @ University of Manchester. Weekly workshops, CTFs and writeups.">
+  <meta property="og:image" content="https://hackchester.net/assets/img/og.png">
+  <meta property="og:url" content="https://hackchester.net/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div id="boot-animation">
-            <pre id="boot-text"></pre>
-        </div>
+<!--
+  Looking for something?
+  flag{v13w_s0urc3_1s_th3_f1rst_st3p}
+  Press ` on any page for more.
+-->
+
+<a class="skip-link" href="#main">skip to content</a>
+
+<!-- Boot splash: plays once per session, any key/click skips it (assets/js/boot.js) -->
+<div class="boot" id="boot" hidden>
+  <pre id="boot-text"></pre>
+  <span class="boot__hint">press any key to skip</span>
+</div>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <canvas class="hero__canvas" id="rain" aria-hidden="true"></canvas>
+    <div class="wrap hero__inner">
+      <div class="hero__login">
+        <span class="ok">[  OK  ]</span> login: root · last login from 10.0.13.37<br>
+        <span class="ok">[  OK  ]</span> motd:
+      </div>
+
+      <img class="hero__logo" src="assets/img/logo.png" alt="">
+      <span class="hero__name">Hackchester</span>
+      <h1 class="wordmark" aria-label="Hackchester"><span class="glitch" data-text="██╗  ██╗ █████╗  ██████╗██╗  ██╗ ██████╗██╗  ██╗███████╗███████╗████████╗███████╗██████╗ 
+██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝██║  ██║██╔════╝██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+███████║███████║██║     █████╔╝ ██║     ███████║█████╗  ███████╗   ██║   █████╗  ██████╔╝
+██╔══██║██╔══██║██║     ██╔═██╗ ██║     ██╔══██║██╔══╝  ╚════██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║██║  ██║╚██████╗██║  ██╗╚██████╗██║  ██║███████╗███████║   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝">██╗  ██╗ █████╗  ██████╗██╗  ██╗ ██████╗██╗  ██╗███████╗███████╗████████╗███████╗██████╗ 
+██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝██║  ██║██╔════╝██╔════╝╚══██╔══╝██╔════╝██╔══██╗
+███████║███████║██║     █████╔╝ ██║     ███████║█████╗  ███████╗   ██║   █████╗  ██████╔╝
+██╔══██║██╔══██║██║     ██╔═██╗ ██║     ██╔══██║██╔══╝  ╚════██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║██║  ██║╚██████╗██║  ██╗╚██████╗██║  ██║███████╗███████║   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝</span></h1>
+
+      <p class="hero__tagline"><span class="prompt">&gt; </span><span id="typewriter" class="cursor"></span></p>
+
+      <div class="hero__ctas">
+        <a class="btn" id="cta-discord" href="https://discord.gg/XNmAqrre3e" target="_blank" rel="noopener">./join --discord</a>
+        <a class="btn btn--ghost" href="writeups.html">cat writeups/</a>
+        <a class="btn btn--ghost" href="#events">tail -f events.log</a>
+      </div>
     </div>
-    <script src="assets/js/boot.js"></script>
+    <div class="hero__scroll">▼ scroll</div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="term">
+        <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/about.md</span><span class="right">utf-8</span></div>
+        <div class="term__body">
+          <h2>About us</h2>
+          <p>
+            We are Hackchester, the University of Manchester's cyber security society. We welcome
+            students from all courses and degree levels who are passionate about protecting the digital
+            world and furthering their knowledge of cyber. No prior knowledge is required to join — only a
+            positive attitude and willingness to learn.
+          </p>
+          <p>
+            We run weekly hands-on workshops (web, pwn, rev, crypto, forensics, OSINT, hardware…), play
+            CTFs as a team, and publish <a href="writeups.html">writeups</a> of what we solve. The society is
+            a place for like-minded people to explore, master new skills and collaborate on projects.
+          </p>
+          <p class="comment">questions, ideas for sessions, or want to give a talk? grab us in person or on Discord.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EVENTS ===================== -->
+  <section class="section" id="events">
+    <div class="wrap">
+      <div class="term">
+        <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/events.log</span><span class="right">tail -f</span></div>
+        <div class="term__body">
+          <h2>Events</h2>
+          <div class="recurring" id="recurring">loading…</div>
+          <ul class="log" id="events-log"><li class="muted">loading…</li></ul>
+          <p class="comment" style="margin-top:16px">anyone can join any session — check the description for prerequisites (some need a Linux laptop/VM).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SOCIALS ===================== -->
+  <section class="section" id="socials">
+    <div class="wrap">
+      <div class="term">
+        <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/socials</span><span class="right">ls -la</span></div>
+        <div class="term__body">
+          <h2>Socials</h2>
+          <p>
+            Join the Discord for resources, opportunities and the plan for each week. Follow the other
+            socials to keep in the loop with everything Hackchester.
+          </p>
+          <div class="socials" id="socials-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SPONSORS STRIP (only shown when sponsors.json has entries) ===================== -->
+  <section class="section" id="sponsor-strip" hidden>
+    <div class="wrap">
+      <div class="term">
+        <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/sponsors</span><span class="right"><a href="sponsors.html">see all →</a></span></div>
+        <div class="term__body">
+          <h2>Supported by</h2>
+          <div class="grid" id="sponsor-strip-grid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/boot.js"></script>
+<script src="assets/js/rain.js"></script>
+<script src="assets/js/home.js"></script>
+<script src="assets/js/terminal.js"></script>
 </body>
 </html>

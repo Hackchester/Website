@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writeups — Hackchester</title>
+  <meta name="description" content="CTF writeups by Hackchester members: web, pwn, rev, crypto, forensics and OSINT.">
+  <meta name="theme-color" content="#060909">
+  <meta property="og:title" content="Hackchester writeups">
+  <meta property="og:description" content="CTF writeups by Hackchester members.">
+  <meta property="og:image" content="https://hackchester.net/assets/img/og.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+
+<main id="main">
+  <div class="wrap section">
+
+    <!-- ========== LIST VIEW ========== -->
+    <div id="list-view">
+      <div class="term">
+        <div class="term__bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="path">~/writeups</span>
+          <span class="right" id="list-count"></span>
+        </div>
+        <div class="term__body">
+          <h2>Writeups</h2>
+          <p class="muted">
+            What we solved and how. Pulled live from
+            <a id="repo-link" href="https://github.com/Hackchester/writeups" target="_blank" rel="noopener">github.com/Hackchester/writeups</a>
+            — members: push a <code>WRITEUP.md</code> there and it appears here
+            (<a id="spec-link" href="https://github.com/Hackchester/writeups/blob/main/WRITEUP_SPEC.md" target="_blank" rel="noopener">format spec</a>).
+          </p>
+
+          <div class="toolbar">
+            <input class="input" id="search" type="search" placeholder="grep -i …" aria-label="Search writeups">
+            <div class="chips" id="cat-chips" aria-label="Filter by category"></div>
+          </div>
+          <div class="chips" id="ctf-chips" aria-label="Filter by CTF" style="margin-bottom:20px"></div>
+
+          <div class="grid" id="cards"></div>
+          <div class="empty" id="list-status"><span class="cursor">fetching index.json</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== READER VIEW ========== -->
+    <div id="reader-view" hidden>
+      <p style="margin-bottom:14px"><a id="back-link" href="writeups.html">← cd ..</a></p>
+      <article class="term">
+        <div class="term__bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="path" id="reader-path">~/writeups/…</span>
+          <span class="right"><a id="source-link" href="#" target="_blank" rel="noopener">folder ↗</a></span>
+        </div>
+        <div class="term__body">
+          <h1 id="reader-title" style="font-size:1.6rem"></h1>
+          <div class="reader-meta" id="reader-meta"></div>
+          <div class="md" id="reader-body"><div class="empty"><span class="cursor">cat WRITEUP.md</span></div></div>
+          <div id="reader-files" hidden style="margin-top:28px;padding-top:16px;border-top:1px dashed var(--border)">
+            <p class="muted" style="margin-bottom:6px">$ ls <span id="files-path"></span></p>
+            <div class="chips" id="files-list"></div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" crossorigin="anonymous"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/writeups.js"></script>
+<script src="assets/js/terminal.js"></script>
+</body>
+</html>
