@@ -1,7 +1,6 @@
 /* =========================================================================
-   sponsors.js — fills the sponsors page from data/sponsors.json and the
-   stats from data/site.json. Empty tiers are hidden; no sponsors at all
-   shows a "your logo here" placeholder.
+   sponsors.js — fills the sponsors page from data/sponsors.json.
+   Empty tiers are hidden; no sponsors at all shows a "your logo here" placeholder.
    ========================================================================= */
 (function () {
   const $ = id => document.getElementById(id);
