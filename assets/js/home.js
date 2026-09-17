@@ -64,6 +64,16 @@
       </a>`).join('');
     const discord = site.socials?.find(s => /discord/i.test(s.name));
     if (discord) document.getElementById('cta-discord').href = discord.url;
+
+    // contact email (from site.json) — in the about/socials text and as a socials chip
+    if (site.contact) {
+      document.querySelectorAll('#contact-email, #contact-email-2').forEach(a => {
+        a.href = `mailto:${site.contact}`;
+        a.textContent = site.contact;
+      });
+      el.insertAdjacentHTML('beforeend',
+        `<a href="mailto:${HC.esc(site.contact)}"><img src="assets/img/Mail.svg" alt="">Email</a>`);
+    }
   }
 
   /* ---- Sponsors strip ---------------------------------------------------- */
