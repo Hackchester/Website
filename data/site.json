@@ -40,19 +40,5 @@
   "writeups": {
     "base": "https://raw.githubusercontent.com/Hackchester/writeups/main/",
     "repo": "https://github.com/Hackchester/writeups"
-  },
-  "stats": [
-    {
-      "value": "200+",
-      "label": "members"
-    },
-    {
-      "value": "weekly",
-      "label": "workshops"
-    },
-    {
-      "value": "3",
-      "label": "CTFs a year"
-    }
-  ]
+  }
 }
