@@ -1,0 +1,10 @@
+[
+  {
+    "_comment": "CTFs not on CTFtime (or not rated). CTFtime results are fetched automatically into ctftime.json.",
+    "name": "pwnEd 2026",
+    "year": 2026,
+    "place": null,
+    "url": "",
+    "note": "University of Edinburgh's CTF"
+  }
+]

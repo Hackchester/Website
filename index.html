@@ -60,7 +60,7 @@
       <div class="hero__ctas">
         <a class="btn" id="cta-discord" href="https://discord.gg/XNmAqrre3e" target="_blank" rel="noopener">./join --discord</a>
         <a class="btn btn--ghost" href="writeups.html">cat writeups/</a>
-        <a class="btn btn--ghost" href="#events">tail -f events.log</a>
+        <a class="btn btn--ghost" href="#ctfs">cat ctf.log</a>
       </div>
     </div>
     <div class="hero__scroll">▼ scroll</div>
@@ -100,6 +100,21 @@
           <div class="recurring" id="recurring" hidden></div>
           <ul class="log" id="events-log"><li class="muted">loading…</li></ul>
           <p class="comment" style="margin-top:16px">anyone can join any session — check the description for prerequisites (some need a Linux laptop/VM).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTFs (data/ctftime.json — auto-fetched — plus data/ctfs.json) ===================== -->
+  <section class="section" id="ctfs">
+    <div class="wrap">
+      <div class="term">
+        <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/ctf.log</span><span class="right"><a id="ctftime-link" href="https://ctftime.org/team/358850" target="_blank" rel="noopener">ctftime ↗</a></span></div>
+        <div class="term__body">
+          <h2>CTFs we play</h2>
+          <p>We compete as <b>Hackchester</b> on CTFtime — anyone in the society can join the team for an event. Results by year:</p>
+          <div id="ctf-years"></div>
+          <p class="comment" id="ctf-fetched" style="margin-top:16px"></p>
         </div>
       </div>
     </div>

@@ -88,10 +88,61 @@
       </a>`).join('');
   }
 
+  /* ---- CTFs (ctftime.json is auto-fetched; ctfs.json is hand-edited extras) ---- */
+  function renderCtfs(ct, extras, site) {
+    const url = ct?.url || site.ctftime?.url;
+    if (url) document.getElementById('ctftime-link').href = url;
+
+    const years = {};
+    for (const [y, v] of Object.entries(ct?.years || {})) {
+      years[y] = { ...v, events: v.events.map(e => ({ ...e, ctftime: true })) };
+    }
+    for (const e of extras || []) {
+      if (!e.name) continue;
+      const y = String(e.year);
+      years[y] = years[y] || { events: [] };
+      years[y].events.push(e);
+    }
+
+    const el = document.getElementById('ctf-years');
+    const keys = Object.keys(years).sort().reverse();
+    if (!keys.length) { el.innerHTML = '<p class="muted">no results yet.</p>'; return; }
+
+    const placeCls = p => !p ? 'muted' : p <= 10 ? 'accent' : p <= 50 ? 'amber' : '';
+    el.innerHTML = keys.map(y => {
+      const v = years[y];
+      const stats = [
+        v.country_place ? `UK #${v.country_place}` : '',
+        v.rating_place ? `global #${v.rating_place}` : '',
+        v.rating_points ? `${v.rating_points.toFixed(1)} rating pts` : '',
+      ].filter(Boolean).join(' · ');
+      const rows = [...v.events].sort((a, b) => (a.place || 1e9) - (b.place || 1e9)).map(e => `
+        <li>
+          <span class="place ${placeCls(e.place)}">${e.place ? '#' + e.place : '—'}</span>
+          <span class="name">${e.url ? `<a href="${HC.esc(e.url)}" target="_blank" rel="noopener">${HC.esc(e.name)}</a>` : HC.esc(e.name)}${e.note ? ` <span class="muted">— ${HC.esc(e.note)}</span>` : ''}</span>
+          <span class="pts">${e.points != null ? HC.esc(Math.round(e.points)) + ' pts' : ''}</span>
+          <span class="rating">${e.rating_points ? '+' + e.rating_points.toFixed(2) : ''}</span>
+        </li>`).join('');
+      return `
+        <div class="ctf-year">
+          <div class="ctf-year__head"><b>${HC.esc(y)}</b>${stats ? `<span class="muted">${HC.esc(stats)}</span>` : ''}</div>
+          <ul class="ctf-list">${rows}</ul>
+        </div>`;
+    }).join('');
+
+    if (ct?.fetched) {
+      document.getElementById('ctf-fetched').textContent = `pulled from ctftime.org on ${HC.fmtDate(ct.fetched.slice(0, 10))}; refreshes weekly`;
+    }
+  }
+
   HC.ready(async site => {
     typewrite(document.getElementById('typewriter'), site.tagline);
     renderSocials(site);
     HC.json('data/events.json').then(ev => renderEvents(ev, site)).catch(console.error);
     HC.json('data/sponsors.json').then(renderSponsorStrip).catch(console.error);
+    Promise.all([
+      HC.json('data/ctftime.json').catch(() => null),
+      HC.json('data/ctfs.json').catch(() => []),
+    ]).then(([ct, extras]) => renderCtfs(ct, extras, site)).catch(console.error);
   });
 })();

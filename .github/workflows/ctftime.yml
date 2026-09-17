@@ -1,0 +1,25 @@
+# Refreshes data/ctftime.json from CTFtime every Monday (and on demand).
+name: fetch ctftime
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/fetch_ctftime.py
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ctftime.json
+          git diff --cached --quiet && echo "no change" && exit 0
+          git commit -m "chore: refresh ctftime.json"
+          git push
