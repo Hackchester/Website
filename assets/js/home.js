@@ -19,8 +19,13 @@
   function renderEvents(events, site) {
     const rec = document.getElementById('recurring');
     const m = site.meeting || {};
-    rec.innerHTML = `<b class="accent">every ${HC.esc(m.day)}</b> ${HC.esc(m.time)} · ${HC.esc(m.location)}`
-      + (m.note ? `<br><span class="muted">${HC.esc(m.note)}</span>` : '');
+    if (m.day || m.time || m.location) {
+      rec.hidden = false;
+      rec.innerHTML = `<b class="accent">every ${HC.esc(m.day)}</b> ${HC.esc(m.time)} · ${HC.esc(m.location)}`
+        + (m.note ? `<br><span class="muted">${HC.esc(m.note)}</span>` : '');
+    } else {
+      rec.remove();
+    }
 
     const list = document.getElementById('events-log');
     const today = new Date(); today.setHours(0, 0, 0, 0);

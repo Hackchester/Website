@@ -88,7 +88,7 @@ function renderFooter(site) {
   footer.innerHTML = `
     <div class="wrap">
       <span class="seg">[0] hackchester</span>
-      <span class="seg">${HC.esc((m.day || '').slice(0, 3).toLowerCase())} ${HC.esc(m.time || '')} ${HC.esc((m.location || '').toLowerCase())}</span>
+      ${(m.day || m.time || m.location) ? `<span class="seg">${HC.esc((m.day || '').slice(0, 3).toLowerCase())} ${HC.esc(m.time || '')} ${HC.esc((m.location || '').toLowerCase())}</span>` : ''}
       <span class="seg seg--links">${socials}</span>
       <span class="seg">&copy; ${new Date().getFullYear()} hackchester · <a href="https://github.com/Hackchester/website" target="_blank" rel="noopener">src</a></span>
     </div>`;

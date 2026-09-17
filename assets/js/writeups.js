@@ -23,7 +23,6 @@
   }
 
   const catBadge = c => `<span class="badge badge--${HC.esc(c || 'misc')}">${HC.esc(c || 'misc')}</span>`;
-  const diffSpan = d => d ? `<span class="diff diff--${HC.esc(d)}">${HC.esc(d)}</span>` : '';
 
   function fail(el, err, what) {
     el.innerHTML = `<div class="empty"><span class="danger">curl: (7) Failed to fetch ${HC.esc(what)}</span>${HC.esc(err.message)}</div>`;
@@ -98,7 +97,7 @@
       $('cards').innerHTML = rows.map(w => `
         <a class="card" href="writeups.html?id=${encodeURIComponent(w.id)}">
           <div class="card__top">
-            ${catBadge(w.category)} ${diffSpan(w.difficulty)}
+            ${catBadge(w.category)}
             <span>${HC.esc(ctfNames[w.ctf] || w.ctf_name || w.ctf)}</span>
             <span style="margin-left:auto">${HC.esc(HC.fmtDate(w.date))}</span>
           </div>
@@ -162,8 +161,6 @@
     $('reader-meta').innerHTML = [
       kv('ctf', `<a href="writeups.html?ctf=${encodeURIComponent(ctf)}">${HC.esc(meta?.ctf_name || ctf)}</a>`),
       kv('category', catBadge(category)),
-      kv('difficulty', diffSpan(meta?.difficulty)),
-      kv('points', meta?.points != null ? HC.esc(meta.points) : ''),
       kv('author', HC.esc((meta?.authors || []).join(', '))),
       kv('date', HC.esc(HC.fmtDate(meta?.date))),
       kv('tags', (meta?.tags || []).map(t => `<span class="tag">${HC.esc(t)}</span>`).join(' ')),
