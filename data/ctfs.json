@@ -5,6 +5,7 @@
     "year": 2026,
     "place": null,
     "url": "",
-    "note": "University of Edinburgh's CTF"
+    "note": "University of Edinburgh's CTF",
+    "logo": "assets/img/ctfs/pwned-2026.png"
   }
 ]
