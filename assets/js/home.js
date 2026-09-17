@@ -130,6 +130,19 @@
         </div>`;
     }).join('');
 
+    // logo marquee — every CTF, most recent first; duplicated so the loop is seamless
+    const all = keys.flatMap(y => years[y].events);
+    if (all.length) {
+      const tile = e => `
+        <a class="marquee__item" href="${HC.esc(e.url || '#')}" target="_blank" rel="noopener" tabindex="-1" title="${HC.esc(e.name)}">
+          ${e.logo ? `<img src="${HC.esc(e.logo)}" alt="" loading="lazy">` : `<span class="marquee__text">${HC.esc(e.name)}</span>`}
+        </a>`;
+      const track = document.getElementById('ctf-marquee-track');
+      track.innerHTML = all.map(tile).join('') + all.map(tile).join('');
+      track.style.animationDuration = `${all.length * 5}s`;
+      document.getElementById('ctf-marquee').hidden = false;
+    }
+
     if (ct?.fetched) {
       document.getElementById('ctf-fetched').textContent = `pulled from ctftime.org on ${HC.fmtDate(ct.fetched.slice(0, 10))}; refreshes weekly`;
     }
