@@ -17,11 +17,6 @@
   }
 
   function render(data, site) {
-    // stats tiles
-    $('stats').innerHTML = (site.stats || []).map(s =>
-      `<div class="stat"><b>${HC.esc(s.value)}</b><span>${HC.esc(s.label)}</span></div>`
-    ).join('');
-
     // contact + pack
     const mail = data.contact || site.contact;
     if (mail) $('contact-btn').href = `mailto:${mail}?subject=Sponsoring%20Hackchester`;

@@ -13,7 +13,6 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 | add an event                       | `data/events.json` — add an object, keep the date `YYYY-MM-DD`. Past events fade out automatically; the next one is highlighted |
 | add a sponsor                      | `data/sponsors.json` — put the logo in `assets/img/sponsors/`, add `{name, logo, url, blurb}` under the right tier. Empty tiers are hidden |
 | link the sponsorship pack PDF      | `data/sponsors.json` → `pack` (e.g. `assets/docs/pack.pdf`) |
-| change the "members / workshops" numbers on the sponsors page | `data/site.json` → `stats` |
 | edit the About text                | `index.html` — it's just HTML in the `~/about.md` window |
 | edit the sponsor pitch text        | `sponsors.html`                                        |
 | add a nav link                     | `assets/js/site.js` → `NAV_LINKS`                      |

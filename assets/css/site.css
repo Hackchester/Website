@@ -370,26 +370,6 @@ main { flex: 1; padding-top: var(--nav-h); }
 }
 .empty .danger { display: block; margin-bottom: 6px; }
 
-/* ---- Stats -------------------------------------------------------------- */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-}
-.stat {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  text-align: center;
-}
-.stat b {
-  display: block;
-  font-size: 1.6rem;
-  color: var(--accent);
-  text-shadow: var(--glow);
-}
-.stat span { color: var(--muted); font-size: 0.85rem; }
-
 /* ---- Sponsors ----------------------------------------------------------- */
 .tier { margin-bottom: 36px; }
 .tier__name {
