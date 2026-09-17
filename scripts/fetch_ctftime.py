@@ -44,6 +44,10 @@ def fetch_logo(event_url):
         info = json.loads(get(f"https://ctftime.org/api/v1/events/{event_id}/"))
         logo = info.get("logo") or ""
         if not logo:
+            # the API often has no logo even when the event page shows one — use the page's thumbnail
+            m = re.search(r'<img src="(/media/cache/[^"]+)"', get(event_url))
+            logo = "https://ctftime.org" + m.group(1) if m else ""
+        if not logo:
             return None
         ext = os.path.splitext(logo.split("?")[0])[1].lower() or ".png"
         if ext not in (".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"):
