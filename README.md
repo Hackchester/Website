@@ -7,7 +7,7 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 
 | I want to…                         | Edit this                                              |
 |------------------------------------|--------------------------------------------------------|
-| change meeting time / room         | `data/site.json` → `meeting`                           |
+| set / clear the regular session    | `data/site.json` → `meeting` (empty = hidden)          |
 | add / remove a social link         | `data/site.json` → `socials` (icon goes in `assets/img/`) |
 | change the tagline or contact email| `data/site.json`                                       |
 | add an event                       | `data/events.json` — add an object, keep the date `YYYY-MM-DD`. Past events fade out automatically; the next one is highlighted |

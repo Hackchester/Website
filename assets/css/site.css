@@ -325,13 +325,13 @@ main { flex: 1; padding-top: var(--nav-h); }
 .badge--crypto    { color: var(--accent-2); }
 .badge--forensics { color: #80cbc4; }
 .badge--osint     { color: #f78c6c; }
+.badge--hardware  { color: #ffcb6b; }
+.badge--blockchain{ color: #82aaff; }
+.badge--mobile    { color: #89ddff; }
+.badge--cloud     { color: #b2ccd6; }
+.badge--ai        { color: #ff79c6; }
+.badge--stego     { color: #a3be8c; }
 .badge--misc      { color: var(--muted); }
-
-.diff { color: var(--muted); }
-.diff--easy   { color: var(--accent); }
-.diff--medium { color: var(--accent-2); }
-.diff--hard   { color: var(--danger); }
-.diff--insane { color: #c792ea; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {

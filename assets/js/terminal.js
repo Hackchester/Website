@@ -15,7 +15,7 @@
       ◆   ◆        Kernel: 6.x-hardened
        ◆ ◆         Uptime: since 2019
         ◆          Shell: hcsh 0.1
-                   Packages: web pwn rev crypto forensics osint
+                   Packages: web pwn rev crypto forensics osint hardware blockchain
                    Theme: phosphor
 `;
 
@@ -41,7 +41,7 @@ also try: sudo, rm -rf /, the konami code`,
       const site = HC.site || {};
       const files = {
         'about.md': `# ${site.name}\n${site.tagline}\n\n${site.description}`,
-        'events.log': `every ${site.meeting?.day} ${site.meeting?.time} @ ${site.meeting?.location}`,
+        'events.log': site.meeting?.day ? `every ${site.meeting.day} ${site.meeting.time} @ ${site.meeting.location}` : 'see the events section on the home page',
         'flag.txt': 'Permission denied. (did you check the page source?)',
         '.secret': 'flag{y0u_f0und_th3_h1dd3n_sh3ll}',
         'socials': (site.socials || []).map(s => `${s.name.padEnd(10)} ${s.url}`).join('\n'),
