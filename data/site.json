@@ -1,0 +1,33 @@
+{
+  "name": "Hackchester",
+  "tagline": "Cyber Security Society @ University of Manchester",
+  "description": "Hackchester is the University of Manchester's cyber security society. Weekly workshops, CTFs, writeups and a community of hackers of all levels.",
+  "url": "https://hackchester.net",
+  "contact": "hackchester@manchester.ac.uk",
+
+  "meeting": {
+    "day": "Wednesday",
+    "time": "17:00–18:00",
+    "location": "Kilburn Building, G41",
+    "note": "Some sessions run 16:00–18:00 — check Discord for the week's plan."
+  },
+
+  "socials": [
+    { "name": "Discord",   "url": "https://discord.gg/XNmAqrre3e", "icon": "assets/img/Discord.svg" },
+    { "name": "Instagram", "url": "https://www.instagram.com/hackchester", "icon": "assets/img/Instagram.svg" },
+    { "name": "LinkedIn",  "url": "https://uk.linkedin.com/company/hackchester", "icon": "assets/img/LinkedIn.png" },
+    { "name": "GitHub",    "url": "https://github.com/Hackchester", "icon": "assets/img/GitHub.svg" },
+    { "name": "SU page",   "url": "https://manchesterstudentsunion.com/activities/view/hackchester" }
+  ],
+
+  "writeups": {
+    "base": "https://raw.githubusercontent.com/Hackchester/writeups/main/",
+    "repo": "https://github.com/Hackchester/writeups"
+  },
+
+  "stats": [
+    { "value": "200+", "label": "members" },
+    { "value": "weekly", "label": "workshops" },
+    { "value": "3", "label": "CTFs a year" }
+  ]
+}

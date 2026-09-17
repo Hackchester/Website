@@ -1,0 +1,203 @@
+/* =========================================================================
+   theme.css — colours, fonts, base styles and the CRT effects.
+   To re-theme the whole site, edit the tokens in :root below.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg:        #060909;
+  --bg-elev:   #0c1211;
+  --border:    #1d2a26;
+  --fg:        #c8d6cf;
+  --muted:     #6d8079;
+  --accent:    #39ff8a;   /* phosphor green */
+  --accent-2:  #ffb000;   /* amber */
+  --danger:    #ff3b5c;
+
+  --accent-dim: rgba(57, 255, 138, 0.12);
+  --glow:       0 0 12px rgba(57, 255, 138, 0.35);
+
+  --font: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 4px;
+  --nav-h: 52px;
+  --max-w: 1040px;
+}
+
+/* Konami code swaps the phosphor for amber */
+:root[data-theme="amber"] {
+  --accent: #ffb000;
+  --accent-2: #39ff8a;
+  --accent-dim: rgba(255, 176, 0, 0.12);
+  --glow: 0 0 12px rgba(255, 176, 0, 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---- CRT overlay: scanlines + vignette ---------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.18) 3px
+  );
+  mix-blend-mode: multiply;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9001;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* ---- Typography --------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+  color: var(--fg);
+}
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.05rem; }
+
+/* Headings inside terminal windows get a shell-style prefix */
+.term h2::before, .term h3::before {
+  content: "# ";
+  color: var(--accent);
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(57, 255, 138, 0.4);
+  transition: color .15s, border-color .15s, text-shadow .15s;
+}
+a:hover, a:focus-visible {
+  color: var(--accent-2);
+  border-bottom-color: var(--accent-2);
+  text-shadow: 0 0 8px rgba(255, 176, 0, 0.4);
+}
+
+code, pre, kbd {
+  font-family: var(--font);
+  font-size: 0.92em;
+}
+code {
+  background: var(--accent-dim);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius);
+}
+pre {
+  background: #050707;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+hr {
+  border: 0;
+  border-top: 1px dashed var(--border);
+  margin: 2rem 0;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.muted   { color: var(--muted); }
+.accent  { color: var(--accent); }
+.amber   { color: var(--accent-2); }
+.danger  { color: var(--danger); }
+.comment { color: var(--muted); font-style: italic; }
+.comment::before { content: "// "; }
+
+/* ---- Blinking cursor ---------------------------------------------------- */
+.cursor::after {
+  content: "▋";
+  color: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- Glitch (used on the wordmark) -------------------------------------- */
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  white-space: pre;
+}
+.glitch::before { color: var(--accent-2); }
+.glitch::after  { color: var(--danger); }
+.glitch:hover::before, .glitch.is-glitching::before {
+  opacity: .8;
+  animation: glitch-a 0.6s steps(2, end) infinite;
+}
+.glitch:hover::after, .glitch.is-glitching::after {
+  opacity: .8;
+  animation: glitch-b 0.7s steps(2, end) infinite;
+}
+@keyframes glitch-a {
+  0%   { clip-path: inset(10% 0 80% 0); transform: translate(-3px, 0); }
+  25%  { clip-path: inset(60% 0 20% 0); transform: translate(3px, 0); }
+  50%  { clip-path: inset(30% 0 50% 0); transform: translate(-2px, 0); }
+  75%  { clip-path: inset(80% 0 5% 0);  transform: translate(2px, 0); }
+  100% { clip-path: inset(45% 0 40% 0); transform: translate(-3px, 0); }
+}
+@keyframes glitch-b {
+  0%   { clip-path: inset(70% 0 10% 0); transform: translate(3px, 0); }
+  25%  { clip-path: inset(15% 0 70% 0); transform: translate(-3px, 0); }
+  50%  { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); }
+  75%  { clip-path: inset(5% 0 85% 0);  transform: translate(-2px, 0); }
+  100% { clip-path: inset(35% 0 45% 0); transform: translate(3px, 0); }
+}
+
+/* ---- Reduced motion: switch everything off ------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  body::before { display: none; }
+  .cursor::after { animation: none; }
+}

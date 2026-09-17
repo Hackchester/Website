@@ -1,88 +1,61 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const bootText = document.getElementById('boot-text');
-    const loadingScreen = document.getElementById('loading-screen');
-    const homepage = document.getElementById('homepage');
+/* =========================================================================
+   boot.js — the "Linux boot" splash on the home page.
+   Plays once per browser session; any key / click / tap skips it.
+   Edit the LINES array to change what it prints.
+   ========================================================================= */
+(function () {
+  const el = document.getElementById('boot');
+  const out = document.getElementById('boot-text');
+  if (!el || !out) return;
 
-    // Realistic Ubuntu-like boot sequence with color coding
-    const bootSequence = [
-        ["", "Initializing system..."],
-        ["[  OK  ] ", "Loading essential drivers..."],
-        ["[  OK  ] ", "Mounting root filesystem..."],
-        ["[  OK  ] ", "Activating swap space..."],
-        ["[  OK  ] ", "Starting system services..."],
-        ["[FAILED] ", "Failed to start network services"],
-        ["[  OK  ] ", "Starting sshd..."],
-        ["[  OK  ] ", "Starting cron service..."],
-        ["[  OK  ] ", "Starting firewall..."],
-        ["[  OK  ] ", "Starting up Hackchester..."],
-        ["[ INFO ] ", "Checking disk..."],
-        ["[  OK  ] ", "Disk check complete."],
-        ["[ INFO ] ", "Attempting login..."]
-    ];
+  const KEY = 'hc-booted';
+  let played = false;
+  try { played = sessionStorage.getItem(KEY) === '1'; } catch (_) {}
+  // ?noboot in the URL skips the splash (handy when developing)
+  if (played || HC.reducedMotion || location.search.includes('noboot')) return;
 
-    // Function to add color classes to the lines
-    async function typeColoredLine(line) {
-        // Check for OK or FAILED and return corresponding span with appropriate color
-        if (line[0].includes("OK")) {
-            bootText.innerHTML += `<span class="ok">${line[0]}</span>`;  // Green for success
-        } else if (line[0].includes("FAILED")) {
-            bootText.innerHTML += `<span class="failed">${line[0]}</span>`;  // Red for error
-        } else if (line[0].includes("INFO")) {
-            bootText.innerHTML += `<span class="info">${line[0]}</span>`;  // Red for error
-        }
+  // [status, text, delay-after-ms]
+  const LINES = [
+    ['',           'Hackchester OS 4.0.4 (kernel 6.x-hardened)', 250],
+    ['[  OK  ]',   'Mounting root filesystem', 90],
+    ['[  OK  ]',   'Loading essential drivers', 80],
+    ['[  OK  ]',   'Starting firewall', 120],
+    ['[FAILED]',   'Failed to start network services (eth0: not trusted)', 260],
+    ['[  OK  ]',   'Starting sshd', 80],
+    ['[  OK  ]',   'Starting ctf-training.service', 90],
+    ['[ INFO ]',   'Checking disk: 1337 flags, 0 errors', 150],
+    ['[  OK  ]',   'Starting hackchester.net', 200],
+    ['',           '', 100],
+    ['',           'login: root', 220],
+    ['',           'password: ********', 350],
+    ['',           'Access granted.', 400],
+  ];
 
-        
-        bootText.innerHTML += `<span class="text">${line[1]}</span>`;
-        bootText.innerHTML += "<br>";
+  el.hidden = false;
+  document.body.style.overflow = 'hidden';
+  let stopped = false;
+
+  function finish() {
+    if (stopped) return;
+    stopped = true;
+    try { sessionStorage.setItem(KEY, '1'); } catch (_) {}
+    el.classList.add('is-done');
+    document.body.style.overflow = '';
+    window.removeEventListener('keydown', finish);
+    setTimeout(() => el.remove(), 600);
+  }
+  window.addEventListener('keydown', finish);
+  el.addEventListener('click', finish);
+  el.addEventListener('touchstart', finish, { passive: true });
+
+  const cls = { '[  OK  ]': 'ok', '[FAILED]': 'failed', '[ INFO ]': 'info' };
+  (async () => {
+    for (const [status, text, delay] of LINES) {
+      if (stopped) return;
+      const tag = status ? `<span class="${cls[status]}">${status}</span> ` : '';
+      out.innerHTML += `${tag}${text}\n`;
+      await new Promise(r => setTimeout(r, delay));
     }
-
-    async function runBootSequence() {
-        for (let i = 0; i < bootSequence.length; i++) {
-            await typeColoredLine(bootSequence[i]);
-
-            // Add a small delay between each line
-            if (i < bootSequence.length - 1) {
-                await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * (600 - 300 + 1)) + 300)); // Pause between lines
-            }
-        }
-
-        // Simulate login prompt interaction
-        await simulateLogin();
-
-    }
-
-    // Simulate typing the username and password
-    async function simulateLogin() {
-        bootText.innerHTML += "\nLogin: ";
-
-        return new Promise(resolve => {
-            setTimeout(async () => {
-                let login = "root";
-                let temp = bootText.innerHTML;
-                for (let i = 0; i < login.length; i ++){
-                    temp += login[i];
-                    bootText.innerHTML = temp + `<span class="cursor"></span>`;
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                }
-                bootText.innerHTML = temp;
-                bootText.innerHTML += "\n";
-                bootText.innerHTML += "Password: ";
-                bootText.innerHTML += `<span class="cursor"></span>`; // Add cursor for password input
-
-                setTimeout(async () => {
-                    bootText.innerHTML += "\nAccess granted.\n";
-                    bootText.innerHTML += "Starting homepage...\n";
-
-                    // Wait and redirect to homepage
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    window.location.pathname = '/home.html'; 
-                    resolve();
-                }, 1500); // Password delay
-            }, 150); // Username typing delay
-
-        });
-    }
-
-    // Start the boot sequence
-    runBootSequence();
-});
+    setTimeout(finish, 250);
+  })();
+})();

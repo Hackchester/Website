@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsors — Hackchester</title>
+  <meta name="description" content="Sponsor Hackchester, the University of Manchester's cyber security society, and reach hundreds of students who are into security.">
+  <meta name="theme-color" content="#060909">
+  <meta property="og:title" content="Sponsor Hackchester">
+  <meta property="og:description" content="Fund the next generation of hackers at the University of Manchester.">
+  <meta property="og:image" content="https://hackchester.net/assets/img/og.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+
+<main id="main">
+  <div class="wrap section">
+
+    <!-- ===================== PITCH ===================== -->
+    <div class="term">
+      <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/sponsors/README.md</span></div>
+      <div class="term__body">
+        <h2>Fund the next generation of hackers</h2>
+        <p>
+          Hackchester is the University of Manchester's cyber security society: a few hundred students
+          who spend their Wednesday evenings breaking things on purpose. We run weekly hands-on workshops,
+          compete in CTFs, and publish what we learn. Most of our members are looking for internships and
+          graduate roles in security.
+        </p>
+        <p>
+          Sponsorship pays for CTF infrastructure, hardware for workshops, prizes, and pizza. In return you
+          get direct access to a room full of people who already know what a reverse shell is.
+        </p>
+
+        <div class="stats" id="stats" style="margin:24px 0"></div>
+
+        <h3>What sponsors get</h3>
+        <ul style="padding-left:1.4em;margin:0 0 20px">
+          <li><b>Talks &amp; workshops</b> — run a session on your tooling, your CTF, or how you hire.</li>
+          <li><b>Recruitment</b> — job posts in our Discord, a table at our events, CV drops.</li>
+          <li><b>Branding</b> — logo on this site, on event materials and on the CTF scoreboard.</li>
+          <li><b>Challenge authoring</b> — sponsor a category in our internal CTF.</li>
+        </ul>
+
+        <div class="hero__ctas">
+          <a class="btn" id="contact-btn" href="mailto:hackchester@manchester.ac.uk">mail sponsors</a>
+          <a class="btn btn--ghost" id="pack-btn" href="#" hidden>cat sponsorship-pack.pdf</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SPONSOR TIERS (from data/sponsors.json) ===================== -->
+    <div class="term">
+      <div class="term__bar"><span class="dots"><i></i><i></i><i></i></span><span class="path">~/sponsors</span><span class="right">ls -la</span></div>
+      <div class="term__body">
+        <h2>Our sponsors</h2>
+        <div id="tiers"></div>
+        <div id="past" hidden>
+          <h3 class="muted" style="margin-top:8px">Previously supported by</h3>
+          <div class="past-sponsors" id="past-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/sponsors.js"></script>
+<script src="assets/js/terminal.js"></script>
+</body>
+</html>

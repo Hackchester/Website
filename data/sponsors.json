@@ -1,0 +1,10 @@
+{
+  "contact": "hackchester@manchester.ac.uk",
+  "pack": "",
+  "tiers": [
+    { "name": "Platinum", "sponsors": [] },
+    { "name": "Gold",     "sponsors": [] },
+    { "name": "Silver",   "sponsors": [] }
+  ],
+  "past": []
+}
