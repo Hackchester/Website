@@ -20,7 +20,7 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 | change the colours                 | `assets/css/theme.css` → the `:root` block (8 variables) |
 | change the boot-splash lines       | `assets/js/boot.js` → `LINES`                          |
 | add a command to the hidden shell  | `assets/js/terminal.js` → `CMDS`                       |
-| publish a writeup                  | not here — push to the **[writeups repo](https://github.com/Hackchester/writeups)** |
+| publish a writeup                  | not here — PR to the **[writeups repo](https://github.com/Hackchester/writeups)** (`writeups/<year>/<CTF>/<challenge>.md`, YAML frontmatter) |
 
 ## Writeups
 

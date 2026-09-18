@@ -66,7 +66,7 @@ also try: sudo, rm -rf /, the konami code`,
       try {
         const idx = await HC.json(HC.site.writeups.base + 'index.json');
         return idx.writeups.slice(0, 8).map(w =>
-          `${(w.date || '').padEnd(11)} ${(w.category || 'misc').padEnd(10)} ${w.title}  → writeups.html?id=${w.id}`
+          `${(w.date || '').padEnd(11)} ${(w.category || 'misc').toLowerCase().padEnd(10)} ${w.title}  → writeups.html?id=${encodeURIComponent(w.id)}`
         ).join('\n') || 'no writeups yet';
       } catch (e) { return `curl: (7) Failed to connect: ${e.message}`; }
     },
