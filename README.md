@@ -19,7 +19,6 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 | add a nav link                     | `assets/js/site.js` → `NAV_LINKS`                      |
 | change the colours                 | `assets/css/theme.css` → the `:root` block (8 variables) |
 | change the boot-splash lines       | `assets/js/boot.js` → `LINES`                          |
-| add a command to the hidden shell  | `assets/js/terminal.js` → `CMDS`                       |
 | publish a writeup                  | not here — PR to the **[writeups repo](https://github.com/Hackchester/writeups)** (`writeups/<year>/<CTF>/<challenge>.md`, YAML frontmatter) |
 
 ## Writeups
@@ -56,13 +55,9 @@ index.html / writeups.html / sponsors.html / 404.html
 data/           site.json, events.json, sponsors.json   ← most edits happen here
 assets/css/     theme.css (tokens + effects), site.css (layout + components)
 assets/js/      site.js (nav/footer/helpers), boot.js, rain.js, home.js,
-                writeups.js, sponsors.js, terminal.js
+                writeups.js, sponsors.js
 assets/img/     logo, social icons, favicon.svg, og.png, sponsors/
 scripts/        fetch_ctftime.py (run by .github/workflows/ctftime.yml)
 CNAME           hackchester.net — don't delete
 ```
 
-## Easter eggs
-
-There's a flag in the page source, a hidden shell on `` ` ``, and the Konami
-code does something. Add your own.
