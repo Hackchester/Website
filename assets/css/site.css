@@ -1,8 +1,8 @@
 /* =========================================================================
    site.css — layout and components.
    Sections: layout, nav, hero, terminal windows, events log, socials,
-   cards/chips/badges, sponsors, writeups reader, footer, boot splash,
-   easter-egg shell, responsive.
+   cards/chips/badges, sponsors, writeups reader, footer, boot splash and
+
    ========================================================================= */
 
 /* ---- Layout ------------------------------------------------------------- */
@@ -589,47 +589,6 @@ main { flex: 1; padding-top: var(--nav-h); }
   font-size: 12px;
 }
 
-/* ---- Easter-egg shell --------------------------------------------------- */
-.shell {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  height: 45vh;
-  z-index: 15000;
-  background: rgba(0, 0, 0, 0.94);
-  border-top: 1px solid var(--accent);
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  transform: translateY(100%);
-  transition: transform .2s ease-out;
-}
-.shell.is-open { transform: translateY(0); }
-.shell__out {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 16px 0;
-  margin: 0;
-  background: none;
-  border: 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-}
-.shell__line {
-  display: flex;
-  gap: 8px;
-  padding: 8px 16px 12px;
-  font-size: 13px;
-}
-.shell__line .ps1 { color: var(--accent); white-space: nowrap; }
-.shell__line input {
-  flex: 1;
-  background: none;
-  border: 0;
-  color: var(--fg);
-  font: inherit;
-  outline: none;
-}
-
 /* ---- 404 ---------------------------------------------------------------- */
 .errpage { text-align: center; padding: 80px 0; }
 .errpage .code {
@@ -663,7 +622,6 @@ main { flex: 1; padding-top: var(--nav-h); }
   .ctf-list .pts { grid-column: 2; }
   .ctf-list .rating { display: none; }
   .log .meta { grid-column: 1; }
-  .shell { height: 60vh; }
 }
 
 @media (max-width: 420px) {
