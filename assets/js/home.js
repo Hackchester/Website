@@ -82,7 +82,7 @@
     if (!all.length) return;
     document.getElementById('sponsor-strip').hidden = false;
     document.getElementById('sponsor-strip-grid').innerHTML = all.map(s =>
-      `<a class="card sponsor" href="${HC.esc(s.url || 'sponsors.html')}" target="_blank" rel="noopener">
+      `<a class="card sponsor" href="${HC.esc(s.url || 'sponsors')}" target="_blank" rel="noopener">
         ${s.logo ? `<img src="${HC.esc(s.logo)}" alt="${HC.esc(s.name)}">` : ''}
         <span class="name">${HC.esc(s.name)}</span>
       </a>`).join('');
