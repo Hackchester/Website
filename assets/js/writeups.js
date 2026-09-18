@@ -105,7 +105,7 @@
       }
       $('list-status').textContent = '';
       $('cards').innerHTML = rows.map(w => `
-        <a class="card" href="writeups.html?id=${encodeURIComponent(w.id)}">
+        <a class="card" href="writeups?id=${encodeURIComponent(w.id)}">
           <div class="card__top">
             ${catBadge(w.category)} ${flags(w)}
             <span>${HC.esc(w.ctf)}</span>
@@ -134,7 +134,7 @@
 
     const back = new URLSearchParams(params);
     back.delete('id');
-    $('back-link').href = 'writeups.html' + (back.toString() ? '?' + back : '');
+    $('back-link').href = 'writeups' + (back.toString() ? '?' + back : '');
 
     // resolve the writeup through index.json (also keeps ?id safe from path traversal)
     let meta;
@@ -161,7 +161,7 @@
 
     const kv = (k, v) => !v ? '' : `<span>${k ? `<span class="k">${k}:</span> ` : ''}<span class="v">${v}</span></span>`;
     $('reader-meta').innerHTML = [
-      kv('ctf', `<a href="writeups.html?ctf=${encodeURIComponent(meta.ctf)}">${HC.esc(meta.ctf)}</a>`),
+      kv('ctf', `<a href="writeups?ctf=${encodeURIComponent(meta.ctf)}">${HC.esc(meta.ctf)}</a>`),
       kv('category', catBadge(meta.category)),
       kv('author', HC.esc((meta.authors || []).join(', '))),
       kv('date', HC.esc(HC.fmtDate(meta.date))),
@@ -184,7 +184,7 @@
         const absHref = new URL(href, folder).href;
         const rel = absHref.startsWith(BASE) ? decodeURIComponent(absHref.slice(BASE.length)) : '';
         const m = rel.match(/^writeups\/(.+)\.md$/i);
-        href = m ? `writeups.html?id=${encodeURIComponent(m[1])}` : absHref;
+        href = m ? `writeups?id=${encodeURIComponent(m[1])}` : absHref;
       }
       return origLink({ ...tok, href });
     };

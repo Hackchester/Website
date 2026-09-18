@@ -43,8 +43,8 @@ const NAV_LINKS = [
 ];
 
 function currentPage() {
-  const file = location.pathname.split('/').pop() || 'index.html';
-  return file === '' ? 'index.html' : file;
+  const file = location.pathname.split('/').pop() || '';
+  return file;
 }
 
 function renderNav() {
