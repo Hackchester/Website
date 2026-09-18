@@ -37,9 +37,9 @@ window.HC = HC;
 
 /* ---- Nav ---------------------------------------------------------------- */
 const NAV_LINKS = [
-  { href: 'index.html',    label: 'home' },
-  { href: 'writeups.html', label: 'writeups' },
-  { href: 'sponsors.html', label: 'sponsors' },
+  { href: '/',    label: 'home' },
+  { href: 'writeups', label: 'writeups' },
+  { href: 'sponsors', label: 'sponsors' },
 ];
 
 function currentPage() {
@@ -56,7 +56,7 @@ function renderNav() {
   nav.className = 'nav';
   nav.innerHTML = `
     <div class="wrap">
-      <a class="nav__prompt" href="index.html" aria-label="Hackchester home">
+      <a class="nav__prompt" href="/" aria-label="Hackchester home">
         <img src="assets/img/logo.png" alt="">
         <span><span class="u">hackchester</span>@<span class="h">uom</span>:<span class="d">${cwd}</span>$</span>
       </a>
