@@ -400,6 +400,8 @@ main { flex: 1; padding-top: var(--nav-h); }
 .badge--ai        { color: #ff79c6; }
 .badge--stego     { color: #a3be8c; }
 .badge--misc      { color: var(--muted); }
+.badge--partial   { color: var(--accent-2); }
+.badge--usedai    { color: #c792ea; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {

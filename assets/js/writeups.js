@@ -1,11 +1,16 @@
 /* =========================================================================
    writeups.js — the writeups page.
-   List view: fetches <base>/index.json from the writeups repo, filters.
-   Reader view (?id=<ctf>/<category>/<challenge>): fetches WRITEUP.md,
-   renders Markdown (marked → DOMPurify → highlight.js).
+
+   Reads index.json from the writeups repo (github.com/Hackchester/writeups),
+   whose layout is:  writeups/<year>/<CTF>/<challenge>.md  with YAML frontmatter
+   (title, author, date, categories, tags, partial_solve, used_ai).
+
+   List view:   filter chips + search over index.json.
+   Reader view: ?id=<year>/<CTF>/<challenge> → fetch the .md, strip frontmatter,
+                render (marked → DOMPurify → highlight.js).
 
    Local dev: point at a local clone with
-     localStorage.setItem('hc-writeups-base', 'http://localhost:8001/')
+     localStorage.setItem('hc-writeups-base', 'http://localhost:8003/')
    ========================================================================= */
 (function () {
   const $ = id => document.getElementById(id);
@@ -19,10 +24,18 @@
     REPO = site.writeups.repo.replace(/\/$/, '');
     if (!BASE.endsWith('/')) BASE += '/';
     $('repo-link').href = REPO;
-    $('spec-link').href = `${REPO}/blob/main/WRITEUP_SPEC.md`;
+    $('spec-link').href = `${REPO}/blob/main/README.md`;
   }
 
-  const catBadge = c => `<span class="badge badge--${HC.esc(c || 'misc')}">${HC.esc(c || 'misc')}</span>`;
+  // raw URL for a repo-relative path, with each segment percent-encoded (paths have spaces)
+  const rawURL = p => BASE + p.split('/').map(encodeURIComponent).join('/');
+  const blobURL = p => `${REPO}/blob/main/${p.split('/').map(encodeURIComponent).join('/')}`;
+
+  const catBadge = c => `<span class="badge badge--${HC.esc((c || 'misc').toLowerCase())}">${HC.esc(c || 'misc')}</span>`;
+  const flags = w => [
+    w.partial_solve ? '<span class="badge badge--partial">partial</span>' : '',
+    w.used_ai ? '<span class="badge badge--usedai">AI-assisted</span>' : '',
+  ].join(' ');
 
   function fail(el, err, what) {
     el.innerHTML = `<div class="empty"><span class="danger">curl: (7) Failed to fetch ${HC.esc(what)}</span>${HC.esc(err.message)}</div>`;
@@ -35,23 +48,20 @@
     $('reader-view').hidden = true;
 
     let idx;
-    try {
-      idx = await HC.json(BASE + 'index.json');
-    } catch (e) { return fail($('list-status'), e, 'index.json'); }
+    try { idx = await HC.json(BASE + 'index.json'); }
+    catch (e) { return fail($('list-status'), e, 'index.json'); }
 
     const all = idx.writeups || [];
-    const ctfNames = Object.fromEntries((idx.ctfs || []).map(c => [c.slug, c.name]));
     $('list-status').textContent = '';
 
-    // filter state lives in the URL so links are shareable
     const state = {
       q: params.get('q') || '',
       cat: params.get('cat') || '',
       ctf: params.get('ctf') || '',
     };
 
-    const cats = (idx.categories || []).filter(c => all.some(w => w.category === c));
-    const ctfs = (idx.ctfs || []).filter(c => all.some(w => w.ctf === c.slug));
+    const cats = [...new Set(all.map(w => w.category))].filter(Boolean).sort();
+    const ctfs = idx.ctfs || [...new Set(all.map(w => w.ctf))].map(c => ({ slug: c, name: c }));
 
     function chips(el, items, key) {
       el.innerHTML = [{ value: '', label: 'all' }, ...items]
@@ -73,7 +83,7 @@
       const rows = all.filter(w =>
         (!state.cat || w.category === state.cat) &&
         (!state.ctf || w.ctf === state.ctf) &&
-        (!q || [w.title, w.ctf_name, w.excerpt, ...(w.tags || []), ...(w.authors || [])].join(' ').toLowerCase().includes(q))
+        (!q || [w.title, w.ctf, w.excerpt, ...(w.tags || []), ...(w.authors || [])].join(' ').toLowerCase().includes(q))
       );
 
       const p = new URLSearchParams();
@@ -85,7 +95,7 @@
       $('list-count').textContent = `${rows.length}/${all.length} files`;
       if (!all.length) {
         $('cards').innerHTML = '';
-        $('list-status').innerHTML = `<span class="danger">ls: no writeups yet</span>be the first — see the <a href="${REPO}/blob/main/WRITEUP_SPEC.md" target="_blank" rel="noopener">spec</a>.`;
+        $('list-status').innerHTML = `<span class="danger">ls: no writeups yet</span>be the first — see the <a href="${REPO}/blob/main/README.md" target="_blank" rel="noopener">submission guide</a>.`;
         return;
       }
       if (!rows.length) {
@@ -97,8 +107,8 @@
       $('cards').innerHTML = rows.map(w => `
         <a class="card" href="writeups.html?id=${encodeURIComponent(w.id)}">
           <div class="card__top">
-            ${catBadge(w.category)}
-            <span>${HC.esc(ctfNames[w.ctf] || w.ctf_name || w.ctf)}</span>
+            ${catBadge(w.category)} ${flags(w)}
+            <span>${HC.esc(w.ctf)}</span>
             <span style="margin-left:auto">${HC.esc(HC.fmtDate(w.date))}</span>
           </div>
           <h3>${HC.esc(w.title)}</h3>
@@ -111,62 +121,55 @@
   }
 
   /* ======================= READER VIEW ======================= */
-  function stripHeader(md) {
-    // drop the leading "# Title" and the metadata table — the page shows them itself
+  function stripFrontmatter(md) {
     const lines = md.split('\n');
-    let i = 0;
-    while (i < lines.length && !lines[i].trim()) i++;
-    if (lines[i]?.startsWith('# ')) i++;
-    while (i < lines.length && !lines[i].trim()) i++;
-    while (i < lines.length && lines[i].trim().startsWith('|')) i++;
-    return lines.slice(i).join('\n');
+    if (lines[0]?.trim() !== '---') return md;
+    const end = lines.findIndex((l, i) => i > 0 && l.trim() === '---');
+    return end === -1 ? md : lines.slice(end + 1).join('\n');
   }
 
   async function showReader(id) {
     $('list-view').hidden = true;
     $('reader-view').hidden = false;
 
-    // keep the list's filters when going back
     const back = new URLSearchParams(params);
     back.delete('id');
     $('back-link').href = 'writeups.html' + (back.toString() ? '?' + back : '');
 
-    if (!/^[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/.test(id)) {
-      return fail($('reader-body'), new Error('bad id — expected <ctf>/<category>/<challenge>'), id);
-    }
-
-    const folder = `${BASE}${id}/`;
-    const mdUrl = `${folder}WRITEUP.md`;
-    $('reader-path').textContent = `~/writeups/${id}/WRITEUP.md`;
-    $('source-link').href = `${REPO}/tree/main/${id}`;
-    $('files-path').textContent = id + '/';
-
-    let md, meta = null;
+    // resolve the writeup through index.json (also keeps ?id safe from path traversal)
+    let meta;
     try {
-      const [res, idx] = await Promise.all([
-        fetch(mdUrl, { cache: 'no-cache' }),
-        HC.json(BASE + 'index.json').catch(() => null),
-      ]);
+      const idx = await HC.json(BASE + 'index.json');
+      meta = (idx.writeups || []).find(w => w.id === id);
+    } catch (e) { return fail($('reader-body'), e, 'index.json'); }
+    if (!meta) return fail($('reader-body'), new Error(`no such writeup: ${id}`), 'writeup');
+
+    const folder = new URL('.', rawURL(meta.path)).href;
+    $('reader-path').textContent = `~/writeups/${meta.id}`;
+    $('source-link').href = blobURL(meta.path);
+    $('source-link').textContent = 'source ↗';
+
+    let md;
+    try {
+      const res = await fetch(rawURL(meta.path), { cache: 'no-cache' });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       md = await res.text();
-      meta = idx?.writeups?.find(w => w.id === id) || null;
-    } catch (e) { return fail($('reader-body'), e, 'WRITEUP.md'); }
+    } catch (e) { return fail($('reader-body'), e, meta.path); }
 
-    const [ctf, category] = id.split('/');
-    const title = meta?.title || (md.match(/^#\s+(.+)$/m) || [])[1] || id.split('/').pop();
-    document.title = `${title} — Hackchester writeups`;
-    $('reader-title').textContent = title;
+    document.title = `${meta.title} — Hackchester writeups`;
+    $('reader-title').textContent = meta.title;
 
-    const kv = (k, v) => v ? `<span><span class="k">${k}:</span> <span class="v">${v}</span></span>` : '';
+    const kv = (k, v) => !v ? '' : `<span>${k ? `<span class="k">${k}:</span> ` : ''}<span class="v">${v}</span></span>`;
     $('reader-meta').innerHTML = [
-      kv('ctf', `<a href="writeups.html?ctf=${encodeURIComponent(ctf)}">${HC.esc(meta?.ctf_name || ctf)}</a>`),
-      kv('category', catBadge(category)),
-      kv('author', HC.esc((meta?.authors || []).join(', '))),
-      kv('date', HC.esc(HC.fmtDate(meta?.date))),
-      kv('tags', (meta?.tags || []).map(t => `<span class="tag">${HC.esc(t)}</span>`).join(' ')),
+      kv('ctf', `<a href="writeups.html?ctf=${encodeURIComponent(meta.ctf)}">${HC.esc(meta.ctf)}</a>`),
+      kv('category', catBadge(meta.category)),
+      kv('author', HC.esc((meta.authors || []).join(', '))),
+      kv('date', HC.esc(HC.fmtDate(meta.date))),
+      kv('', flags(meta)),
+      kv('tags', (meta.tags || []).map(t => `<span class="tag">${HC.esc(t)}</span>`).join(' ')),
     ].join('');
 
-    // relative links/images resolve against the challenge folder on GitHub raw
+    // relative image/link paths resolve against the writeup's folder on GitHub raw
     const renderer = new marked.Renderer();
     const abs = href => /^([a-z]+:|\/|#)/i.test(href) ? href : new URL(href, folder).href;
     const origImage = renderer.image.bind(renderer);
@@ -175,29 +178,21 @@
     renderer.link = tok => {
       let href = tok.href;
       if (!/^([a-z]+:|\/|#)/i.test(href)) {
-        // relative → resolve against this challenge folder; other writeups open on this site,
-        // anything else opens on GitHub
-        const p = new URL(href, `https://x/${id}/`).pathname.replace(/^\//, '');
-        const m = p.match(/^([a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+)\/WRITEUP\.md$/i);
-        href = m ? `writeups.html?id=${m[1]}` : `${REPO}/blob/main/${p}`;
+        // a link to another writeup opens on this site; anything else opens on GitHub.
+        // strip BASE first — the repo path also contains "writeups", so a bare
+        // /writeups\/.../ match would capture the repo prefix too.
+        const absHref = new URL(href, folder).href;
+        const rel = absHref.startsWith(BASE) ? decodeURIComponent(absHref.slice(BASE.length)) : '';
+        const m = rel.match(/^writeups\/(.+)\.md$/i);
+        href = m ? `writeups.html?id=${encodeURIComponent(m[1])}` : absHref;
       }
       return origLink({ ...tok, href });
     };
 
-    const html = marked.parse(stripHeader(md), { renderer, gfm: true, breaks: false });
+    const html = marked.parse(stripFrontmatter(md), { renderer, gfm: true, breaks: false });
     $('reader-body').innerHTML = DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
     $('reader-body').querySelectorAll('a[href^="http"]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
-    $('reader-body').querySelectorAll('pre code').forEach(el => {
-      try { hljs.highlightElement(el); } catch (_) {}
-    });
-
-    const files = (meta?.files || []);
-    if (files.length) {
-      $('reader-files').hidden = false;
-      $('files-list').innerHTML = files.map(f =>
-        `<a class="chip" href="${REPO}/tree/main/${id}/${encodeURIComponent(f)}" target="_blank" rel="noopener">${HC.esc(f)}</a>`
-      ).join('');
-    }
+    $('reader-body').querySelectorAll('pre code').forEach(el => { try { hljs.highlightElement(el); } catch (_) {} });
   }
 
   /* ======================= BOOT ======================= */
