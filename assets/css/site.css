@@ -191,9 +191,9 @@ main { flex: 1; padding-top: var(--nav-h); }
   transform: translateX(-50%);
   color: var(--muted);
   font-size: 0.85rem;
-  animation: bob 2s ease-in-out infinite;
+  /* animation: bob 2s ease-in-out infinite; */
 }
-@keyframes bob { 50% { transform: translate(-50%, 6px); } }
+/* @keyframes bob { 50% { transform: translate(-50%, 6px); } } */
 
 /* ---- Terminal window ---------------------------------------------------- */
 .term {
