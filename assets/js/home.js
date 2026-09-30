@@ -28,11 +28,24 @@
     }
 
     const list = document.getElementById('events-log');
-    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const now = new Date();
 
-    const sorted = [...events].sort((a, b) => a.date.localeCompare(b.date));
-    const upcoming = sorted.filter(e => new Date(e.date) >= today);
-    const past = sorted.filter(e => new Date(e.date) < today).slice(-2);
+    // When an event is "over": its end time on its date (the later time in a
+    // "15:00 - 17:00" range, or the single time given). With no parseable time
+    // we use end-of-day, so a date-only event stays upcoming for the whole day.
+    // An unparseable date (e.g. "TBC") returns null and the event is hidden.
+    const endsAt = e => {
+      const d = /^(\d{4})-(\d{2})-(\d{2})$/.exec((e.date || '').trim());
+      if (!d) return null;
+      const times = (e.time || '').match(/\d{1,2}:\d{2}/g);
+      const [hh, mm] = times ? times[times.length - 1].split(':').map(Number) : [23, 59];
+      return new Date(+d[1], +d[2] - 1, +d[3], hh, mm);
+    };
+
+    const dated = events.map(e => ({ e, end: endsAt(e) })).filter(x => x.end);
+    dated.sort((a, b) => a.end - b.end);
+    const past = dated.filter(x => x.end < now).slice(-2);
+    const upcoming = dated.filter(x => x.end >= now);
     const show = [...past, ...upcoming];
 
     if (!show.length) {
@@ -40,8 +53,8 @@
       return;
     }
     let nextMarked = false;
-    list.innerHTML = show.map(e => {
-      const isPast = new Date(e.date) < today;
+    list.innerHTML = show.map(({ e, end }) => {
+      const isPast = end < now;
       let cls = isPast ? 'past' : '';
       if (!isPast && !nextMarked) { cls = 'next'; nextMarked = true; }
       const title = e.link
