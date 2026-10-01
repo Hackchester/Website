@@ -7,4 +7,12 @@
         "description": "A basic introduction to cybersecurity for all beginners.",
         "link": ""
     }
+        {
+        "title": "Boot to Root",
+        "date": "2026-10-07",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "A beginner workshop on going boot-to-root and hacking your first machine.",
+        "link": ""
+    }
 ]
