@@ -63,7 +63,10 @@
       return `<li class="${cls}">
         <span class="ts">${HC.esc(e.date)} ${HC.esc(e.time || '')}</span>
         <span class="title">${title}</span>
-        <span class="meta">${HC.esc(e.location || '')}${e.description ? ' — ' + HC.esc(e.description) : ''}</span>
+        <span class="meta">
+        ${HC.esc(e.location || '')}${e.description ? ' — ' + HC.esc(e.description) : ''}
+        ${e.requirements ? `<br><span class="muted">Requirements: ${HC.esc(e.requirements)}</span>` : ''}
+        </span>
       </li>`;
     }).join('');
   }

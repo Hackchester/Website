@@ -13,6 +13,7 @@
         "time": "15:00 - 17:00",
         "location": "Kilburn, IT 407",
         "description": "A beginner workshop on going boot-to-root and hacking your first machine.",
+        "requirements": "No prior knowledge, please bring a working Linux Virtual Machine",
         "link": ""
     }
 ]
