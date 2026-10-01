@@ -104,6 +104,21 @@
       </a>`).join('');
   }
 
+  /* ---- Past resources: completed boxes --------------------------------- */
+  function renderBoxes(boxes) {
+    const list = document.getElementById('boxes-list');
+    const entries = Array.isArray(boxes) ? boxes.filter(b => b && b.name && b.platform) : [];
+    if (!entries.length) {
+      list.innerHTML = '<li class="muted">no boxes listed yet.</li>';
+      return;
+    }
+    list.innerHTML = entries.map(box => `
+      <li>
+        <span class="title">${HC.esc(box.name)}</span>
+        <span class="meta">${HC.esc(box.platform)}</span>
+      </li>`).join('');
+  }
+
   /* ---- CTFs (ctftime.json is auto-fetched; ctfs.json is hand-edited extras) ---- */
   function renderCtfs(ct, extras, site) {
     const url = ct?.url || site.ctftime?.url;
@@ -168,6 +183,7 @@
     typewrite(document.getElementById('typewriter'), site.tagline);
     renderSocials(site);
     HC.json('data/events.json').then(ev => renderEvents(ev, site)).catch(console.error);
+    HC.json('data/resources.json').then(renderBoxes).catch(console.error);
     HC.json('data/sponsors.json').then(renderSponsorStrip).catch(console.error);
     Promise.all([
       HC.json('data/ctftime.json').catch(() => null),

@@ -12,6 +12,7 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 | change the tagline or contact email| `data/site.json`                                       |
 | add a CTF that isn't on CTFtime    | `data/ctfs.json`. CTFtime results + logos land in `data/ctftime.json` / `assets/img/ctfs/` automatically (weekly Action; `python3 scripts/fetch_ctftime.py` refreshes now). Add a `logo` path to a `ctfs.json` entry to put it in the marquee |
 | add an event                       | `data/events.json` — add an object, keep the date `YYYY-MM-DD`. Past events fade out automatically; the next one is highlighted |
+| add a completed box                | `data/resources.json` — add `{ "name": "Box name", "platform": "Platform" }` to the array |
 | add a sponsor                      | `data/sponsors.json` — put the logo in `assets/img/sponsors/`, add `{name, logo, url, blurb}` under the right tier. Empty tiers are hidden |
 | link the sponsorship pack PDF      | `data/sponsors.json` → `pack` (e.g. `assets/docs/pack.pdf`) |
 | edit the About text                | `index.html` — it's just HTML in the `~/about.md` window |

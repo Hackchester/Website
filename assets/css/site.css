@@ -256,6 +256,24 @@ main { flex: 1; width: 100%; padding-top: var(--nav-h); }
   margin-bottom: 20px;
 }
 
+.resource-subheading {
+  color: var(--accent);
+  font-size: 1rem;
+  margin: 0 0 8px;
+}
+.resource-subheading::before { content: "## "; color: var(--muted); }
+.resource-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 4px 0 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+#boxes-list li { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+#boxes-list .meta { grid-column: 2; color: var(--muted); font-size: 0.9rem; }
+
 /* ---- CTF results -------------------------------------------------------- */
 .ctf-year { margin-bottom: 20px; }
 .ctf-year:last-child { margin-bottom: 0; }
@@ -646,6 +664,7 @@ main { flex: 1; width: 100%; padding-top: var(--nav-h); }
   .ctf-list .pts { grid-column: 2; }
   .ctf-list .rating { display: none; }
   .log .meta { grid-column: 1; }
+  .resource-columns, #boxes-list li { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 @media (max-width: 420px) {
