@@ -2,5 +2,13 @@
   {
     "name": "Getting Started",
     "platform": "THM"
+  },
+  {
+    "name": "RootMe",
+    "platform": "THM"
+  },
+  {
+    "name": "SimpleCTF",
+    "platform": "THM"
   }
 ]
