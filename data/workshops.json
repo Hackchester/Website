@@ -1,0 +1,28 @@
+[
+    {
+        "title": "Intro to Cybersecurity",
+        "date": "2026-09-30",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "A basic introduction to cybersecurity for all beginners.",
+        "link": ""
+    },
+    {
+        "title": "Boot to Root",
+        "date": "2026-10-07",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "A beginner workshop on going boot-to-root and hacking your first machine.",
+        "requirements": "No prior knowledge, please bring a working Linux Virtual Machine",
+        "link": ""
+    },
+    {
+        "title": "Fresh Start",
+        "date": "2026-10-14",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "A reintroduction to cybersecurity and hacking with practical exercises and walkthroughs",
+        "requirements": "Please bring a working Kali Linux Virtual Machine. ",
+        "link": ""
+    }
+]

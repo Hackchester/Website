@@ -1,6 +1,6 @@
 /* =========================================================================
    home.js — fills the home page from data/*.json:
-   typewriter tagline, recurring meeting line, events log, socials,
+    typewriter tagline, recurring meeting line, workshop and event logs, socials,
    and the sponsors strip (only if there are sponsors).
    ========================================================================= */
 (function () {
@@ -15,25 +15,13 @@
     })();
   }
 
-  /* ---- Events ------------------------------------------------------------ */
-  function renderEvents(events, site) {
-    const rec = document.getElementById('recurring');
-    const m = site.meeting || {};
-    if (m.day || m.time || m.location) {
-      rec.hidden = false;
-      rec.innerHTML = `<b class="accent">every ${HC.esc(m.day)}</b> ${HC.esc(m.time)} · ${HC.esc(m.location)}`
-        + (m.note ? `<br><span class="muted">${HC.esc(m.note)}</span>` : '');
-    } else {
-      rec.remove();
-    }
-
-    const list = document.getElementById('events-log');
+  /* ---- Workshops and events --------------------------------------------- */
+  function renderSchedule(items, listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
     const now = new Date();
 
-    // When an event is "over": its end time on its date (the later time in a
-    // "15:00 - 17:00" range, or the single time given). With no parseable time
-    // we use end-of-day, so a date-only event stays upcoming for the whole day.
-    // An unparseable date (e.g. "TBC") returns null and the event is hidden.
+    // All-day and unspecified times remain upcoming through the event date.
     const endsAt = e => {
       const d = /^(\d{4})-(\d{2})-(\d{2})$/.exec((e.date || '').trim());
       if (!d) return null;
@@ -42,14 +30,14 @@
       return new Date(+d[1], +d[2] - 1, +d[3], hh, mm);
     };
 
-    const dated = events.map(e => ({ e, end: endsAt(e) })).filter(x => x.end);
+    const dated = items.map(e => ({ e, end: endsAt(e) })).filter(x => x.end);
     dated.sort((a, b) => a.end - b.end);
     const past = dated.filter(x => x.end < now).slice(-2);
     const upcoming = dated.filter(x => x.end >= now);
     const show = [...past, ...upcoming];
 
     if (!show.length) {
-      list.innerHTML = '<li class="muted">no events scheduled yet — watch Discord.</li>';
+      list.innerHTML = '<li class="muted">no sessions scheduled yet — watch Discord.</li>';
       return;
     }
     let nextMarked = false;
@@ -182,7 +170,17 @@
   HC.ready(async site => {
     typewrite(document.getElementById('typewriter'), site.tagline);
     renderSocials(site);
-    HC.json('data/events.json').then(ev => renderEvents(ev, site)).catch(console.error);
+    const meeting = site.meeting || {};
+    const recurring = document.getElementById('recurring');
+    if (meeting.day || meeting.time || meeting.location) {
+      recurring.hidden = false;
+      recurring.innerHTML = `<b class="accent">every ${HC.esc(meeting.day)}</b> ${HC.esc(meeting.time)} · ${HC.esc(meeting.location)}`
+        + (meeting.note ? `<br><span class="muted">${HC.esc(meeting.note)}</span>` : '');
+    } else {
+      recurring.remove();
+    }
+    HC.json('data/workshops.json').then(items => renderSchedule(items, 'workshops-log')).catch(console.error);
+    HC.json('data/events.json').then(items => renderSchedule(items, 'events-log')).catch(console.error);
     HC.json('data/resources.json').then(renderBoxes).catch(console.error);
     HC.json('data/sponsors.json').then(renderSponsorStrip).catch(console.error);
     Promise.all([
