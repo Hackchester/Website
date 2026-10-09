@@ -179,8 +179,21 @@
     } else {
       recurring.remove();
     }
-    HC.json('data/workshops.json').then(items => renderSchedule(items, 'workshops-log')).catch(console.error);
-    HC.json('data/events.json').then(items => renderSchedule(items, 'events-log')).catch(console.error);
+
+    const loadSchedule = (path, listId, label) => {
+      HC.json(path)
+        .then(items => renderSchedule(items, listId))
+        .catch(err => {
+          console.error(err);
+          const list = document.getElementById(listId);
+          if (list) {
+            list.innerHTML = `<li class="muted">unable to load ${HC.esc(label)} — serve the site over HTTP.</li>`;
+          }
+        });
+    };
+
+    loadSchedule('data/workshops.json', 'workshops-log', 'workshops');
+    loadSchedule('data/events.json', 'events-log', 'events');
     HC.json('data/resources.json').then(renderBoxes).catch(console.error);
     HC.json('data/sponsors.json').then(renderSponsorStrip).catch(console.error);
     Promise.all([
