@@ -13,6 +13,16 @@
     {
       "name": "Silver",
       "sponsors": []
+    },
+    {
+      "name": "CTF Sponsors",
+      "sponsors": [
+        {
+          "name": "the365team",
+          "logo": "assets/img/sponsors/365.svg",
+          "url": "https://the365team.co.uk/"
+        }
+      ]
     }
   ],
   "past": []

@@ -48,11 +48,16 @@
       const title = e.link
         ? `<a href="${HC.esc(e.link)}" target="_blank" rel="noopener">${HC.esc(e.title)}</a>`
         : HC.esc(e.title);
+      const description = e.description
+        ? (e.descriptionNewlines
+          ? e.description.split('\n').map(line => HC.esc(line.trim())).join('<br>')
+          : HC.esc(e.description))
+        : '';
       return `<li class="${cls}">
         <span class="ts">${HC.esc(e.date)} ${HC.esc(e.time || '')}</span>
         <span class="title">${title}</span>
         <span class="meta">
-        ${HC.esc(e.location || '')}${e.description ? ' — ' + HC.esc(e.description) : ''}
+        ${HC.esc(e.location || '')}${description ? ' — ' + description : ''}
         ${e.requirements ? `<br><span class="muted">Requirements: ${HC.esc(e.requirements)}</span>` : ''}
         </span>
       </li>`;

@@ -4,7 +4,8 @@
         "date": "2026-10-24",
         "time": "All Day",
         "location": "TBC",
-        "description": "October CTF hosted in collaboration with MIS. Challenges span multiple categories and difficulties.",
+        "description": "'Hack-O-Lantern' CTF hosted in collaboration with MIS. Challenges span multiple categories and difficulties.\nMade possible due to the generous support of the events sponsor the365team.",
+        "descriptionNewlines": true,
         "link": ""
     }
 ]
