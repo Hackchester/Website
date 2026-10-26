@@ -25,5 +25,14 @@
     "date": "2026-10-26",
     "url": "https://www.youtube.com/watch?v=Z1tssxH-og4",
     "description": "Walkthrough for 'Spooky Authentification' - Reverse Engineering Challenge from October CTF 'Hack-O-Lantern'"
+  },
+    {
+    "title": "Bogo's Coffin - Spotting Determinism in a Bogo Sort",
+    "categories": ["Misc"],
+    "ctf": "Bogo's Coffin",
+    "author": "Dashiel Soleon",
+    "date": "2026-10-26",
+    "url": "https://www.youtube.com/watch?v=MSVDNShEOAE",
+    "description": "Walkthrough for 'Bogo's Coffin' - Misc Challenge from October CTF 'Hack-O-Lantern'"
   }
 ]
