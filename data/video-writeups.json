@@ -7,5 +7,23 @@
     "date": "2026-10-25",
     "url": "https://www.youtube.com/watch?v=QTjzabCxn2I",
     "description": "Walkthrough for 'The Midnight Groupchat' - OSINT Challenge from October CTF 'Hack-O-Lantern'"
+  },
+    {
+    "title": "Frequent Haunts - Using Web Shells and Cracking SSH Keys",
+    "categories": ["Box"],
+    "ctf": "Frequent Haunts",
+    "author": "Dashiel Soleon",
+    "date": "2026-10-26",
+    "url": "https://www.youtube.com/watch?v=5MfIxOdHI1w",
+    "description": "Walkthrough for 'Frequent Haunts' Part 1 and 2 - Box Challenge from October CTF 'Hack-O-Lantern'"
+  },
+    {
+    "title": " Spooky Authentification - Reverse Engineering Compiled Python To Find Credentials",
+    "categories": ["Rev"],
+    "ctf": "Spooky Authentification",
+    "author": "Dashiel Soleon",
+    "date": "2026-10-26",
+    "url": "https://www.youtube.com/watch?v=Z1tssxH-og4",
+    "description": "Walkthrough for 'Spooky Authentification' - Reverse Engineering Challenge from October CTF 'Hack-O-Lantern'"
   }
 ]
