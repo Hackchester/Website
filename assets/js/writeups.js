@@ -42,9 +42,76 @@
     console.error(err);
   }
 
+  function youtubeId(value) {
+    try {
+      const url = new URL(value);
+      let id = '';
+      if (url.hostname === 'youtu.be' || url.hostname === 'www.youtu.be') id = url.pathname.slice(1).split('/')[0];
+      else if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(url.hostname)) {
+        if (url.pathname === '/watch') id = url.searchParams.get('v') || '';
+        else id = url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1] || '';
+      }
+      return /^[\w-]{11}$/.test(id) ? id : '';
+    } catch (_) { return ''; }
+  }
+
+  async function showVideoWriteups() {
+    let videos;
+    try { videos = await HC.json('data/video-writeups.json'); }
+    catch (e) {
+      $('video-status').hidden = false;
+      return fail($('video-status'), e, 'data/video-writeups.json');
+    }
+    const valid = (Array.isArray(videos) ? videos : []).filter(v => v && youtubeId(v.url));
+    const categories = v => Array.isArray(v.categories) ? v.categories.filter(c => typeof c === 'string' && c.trim()) :
+      (typeof v.category === 'string' && v.category.trim() ? [v.category] : []);
+    const cats = [...new Set(valid.flatMap(categories))].sort((a, b) => a.localeCompare(b));
+    let selectedCategory = '';
+    const chipItems = [{ value: '', label: 'all' }, ...cats.map(c => ({ value: c, label: c }))];
+    $('video-cat-chips').innerHTML = chipItems.map(c =>
+      `<button class="chip" data-v="${HC.esc(c.value)}" aria-pressed="${selectedCategory === c.value}">${HC.esc(c.label)}</button>`
+    ).join('');
+    $('video-cat-chips').querySelectorAll('.chip').forEach(button => button.addEventListener('click', () => {
+      selectedCategory = button.dataset.v;
+      $('video-cat-chips').querySelectorAll('.chip').forEach(chip => chip.setAttribute('aria-pressed', chip === button));
+      renderVideos();
+    }));
+
+    function renderVideos() {
+    const rows = valid.filter(v => !selectedCategory || categories(v).includes(selectedCategory));
+    $('video-count').textContent = `${rows.length}/${valid.length} videos`;
+    if (!valid.length) {
+      $('video-status').hidden = false;
+      $('video-status').textContent = 'No video writeups yet. Add one in data/video-writeups.json.';
+      return;
+    }
+    if (!rows.length) {
+      $('video-cards').innerHTML = '';
+      $('video-status').hidden = false;
+      $('video-status').textContent = 'No videos in this category.';
+      return;
+    }
+    $('video-status').hidden = true;
+    $('video-cards').innerHTML = rows.map(v => {
+      const id = youtubeId(v.url);
+      return `<article class="video-card">
+        <div class="video-card__player"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${HC.esc(v.title || 'Video writeup')}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <div class="video-card__body">
+          <div class="card__top">${categories(v).map(catBadge).join(' ')}</div>
+          <h3>${HC.esc(v.title || 'Video writeup')}</h3>
+          <p class="muted">${[v.ctf, v.author, v.date].filter(Boolean).map(HC.esc).join(' · ')}</p>
+          ${v.description ? `<p>${HC.esc(v.description)}</p>` : ''}
+        </div>
+      </article>`;
+    }).join('');
+    }
+    renderVideos();
+  }
+
   /* ======================= LIST VIEW ======================= */
   async function showList() {
     $('list-view').hidden = false;
+    $('video-writeups').hidden = false;
     $('reader-view').hidden = true;
 
     let idx;
@@ -130,6 +197,7 @@
 
   async function showReader(id) {
     $('list-view').hidden = true;
+    $('video-writeups').hidden = true;
     $('reader-view').hidden = false;
 
     const back = new URLSearchParams(params);
@@ -198,6 +266,7 @@
   /* ======================= BOOT ======================= */
   HC.ready(site => {
     config(site);
+    showVideoWriteups();
     const id = params.get('id');
     return id ? showReader(id) : showList();
   }).catch(e => fail($('list-status'), e, 'site.json'));

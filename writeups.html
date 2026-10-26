@@ -48,6 +48,24 @@
       </div>
     </div>
 
+    <!-- Video writeups are maintained in data/video-writeups.json. -->
+    <section id="video-writeups" aria-labelledby="video-writeups-title">
+      <div class="term">
+        <div class="term__bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="path">~/writeups/videos</span>
+          <span class="right" id="video-count"></span>
+        </div>
+        <div class="term__body">
+          <h2 id="video-writeups-title">Video writeups</h2>
+          <p class="muted">Watch members walk through CTF challenges. See the <a href="data/video-writeups.example.json" target="_blank" rel="noopener">example JSON format</a> before adding a video.</p>
+          <div class="chips" id="video-cat-chips" aria-label="Filter videos by category" style="margin-bottom:20px"></div>
+          <div class="grid" id="video-cards"></div>
+          <div class="empty" id="video-status" hidden></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== READER VIEW ========== -->
     <div id="reader-view" hidden>
       <p style="margin-bottom:14px"><a id="back-link" href="/writeups">← cd ..</a></p>

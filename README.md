@@ -22,6 +22,7 @@ The Hackchester website. Plain HTML/CSS/JS, hosted for free on GitHub Pages —
 | change the colours                 | `assets/css/theme.css` → the `:root` block (8 variables) |
 | change the boot-splash lines       | `assets/js/boot.js` → `LINES`                          |
 | publish a writeup                  | not here — PR to the **[writeups repo](https://github.com/Hackchester/writeups)** (`writeups/<year>/<CTF>/<challenge>.md`, YAML frontmatter) |
+| add a video writeup                | `data/video-writeups.json` — add an object with the video details (see below) |
 
 ## Writeups
 
@@ -33,6 +34,39 @@ Nothing in this repo changes when a writeup is added. The base URL lives in
 
 GitHub's raw endpoint caches for ~5 minutes, so a new writeup can take that long
 to appear after the Action in the writeups repo has committed `index.json`.
+
+### Add a video writeup
+
+Edit `data/video-writeups.json` and add an object to its array. Keep the commas
+between objects and use double quotes, as required by JSON:
+
+```json
+[
+  {
+    "title": "Solving the example web challenge",
+    "categories": ["web"],
+    "ctf": "Example CTF",
+    "author": "Alex",
+    "date": "2026-10-26",
+    "url": "https://www.youtube.com/watch?v=VIDEO_ID",
+    "description": "A short optional summary of the approach."
+  }
+]
+```
+
+Replace `VIDEO_ID` with the 11-character ID from the YouTube video URL. A normal
+watch URL (`youtube.com/watch?v=…`), short link (`youtu.be/…`), Shorts URL, or
+YouTube embed URL is accepted. The page embeds the video using YouTube's
+privacy-enhanced `youtube-nocookie.com` player. `title` and `url` are required.
+`categories` is an optional array of category names such as `web`, `pwn`, `rev`,
+`crypto`, `forensics`, or `osint`. A video can have multiple categories; the
+page shows each as a badge and adds category filter chips. `ctf`, `author`,
+`date` and `description` are also optional. Add more objects by
+separating them with commas. To remove a video, delete its object; use `[]` when
+there are no videos. Invalid or non-YouTube URLs are skipped.
+
+Commit the JSON change and push it to `main`; the video appears with the site
+deployment. The video itself stays hosted on YouTube.
 
 ## Run locally
 
