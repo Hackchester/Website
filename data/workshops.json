@@ -34,4 +34,13 @@
         "requirements": "No Prior Knowledge, please bring a working Kali Linux Virtual Machine.",
         "link": ""
     }
+    {
+        "title": "Chill Hack/Hack-O-Lantern Walkthrough",
+        "date": "2026-10-28",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "Bring in whatever you're working on or go through solutions for our CTF last weekend",
+        "requirements": "No Prior Knowledge, please bring a working Kali Linux Virtual Machine.",
+        "link": ""
+    }
 ]
