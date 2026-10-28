@@ -34,5 +34,14 @@
     "date": "2026-10-26",
     "url": "https://www.youtube.com/watch?v=MSVDNShEOAE",
     "description": "Walkthrough for 'Bogo's Coffin' - Misc Challenge from October CTF 'Hack-O-Lantern'"
+  },
+      {
+    "title": "The Crypt - Using Context Clues To Build a Wordlist",
+    "categories": ["Misc"],
+    "ctf": "The Crypt",
+    "author": "Dashiel Soleon",
+    "date": "2026-10-28",
+    "url": "https://www.youtube.com/watch?v=xU_2DmvVoxM",
+    "description": "Walkthrough for 'The Crypt' - Misc Challenge from October CTF 'Hack-O-Lantern'"
   }
 ]
