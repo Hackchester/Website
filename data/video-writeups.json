@@ -43,5 +43,14 @@
     "date": "2026-10-28",
     "url": "https://www.youtube.com/watch?v=xU_2DmvVoxM",
     "description": "Walkthrough for 'The Crypt' - Misc Challenge from October CTF 'Hack-O-Lantern'"
+  },
+    {
+    "title": "RootMe THM - Bypassing Upload Filters and Finding SUID PrivEsc",
+    "categories": ["Box"],
+    "ctf": "RootMe",
+    "author": "Dashiel Soleon",
+    "date": "2026-11-01",
+    "url": "https://www.youtube.com/watch?v=4tRCHnexgJg",
+    "description": "Walkthrough for 'RootMe THM' - Box Challenge from TryHackMe"
   }
 ]
