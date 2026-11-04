@@ -52,5 +52,13 @@
     "date": "2026-11-01",
     "url": "https://www.youtube.com/watch?v=4tRCHnexgJg",
     "description": "Walkthrough for 'RootMe THM' - Box Challenge from TryHackMe"
-  }
+  ,
+    {
+    "title": "Basic Pentesting THM - Enumeration, Exploitation and Priviledge Escalation",
+    "categories": ["Box"],
+    "ctf": "Basic Pentesting",
+    "author": "Dashiel Soleon",
+    "date": "2026-11-04",
+    "url": "https://youtu.be/vRVUEpKWuoM",
+    "description": "Walkthrough for 'Basical Pentesting THM' - Box Challenge from TryHackMe"
 ]
