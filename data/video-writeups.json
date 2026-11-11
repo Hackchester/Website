@@ -60,6 +60,15 @@
     "author": "Dashiel Soleon",
     "date": "2026-11-04",
     "url": "https://youtu.be/vRVUEpKWuoM",
-    "description": "Walkthrough for 'Basical Pentesting THM' - Box Challenge from TryHackMe"
+    "description": "Walkthrough for 'Basic Pentesting THM' - Box Challenge from TryHackMe"
+  },
+    {
+    "title": "h4cked THM h4cked THM - Using Wireshark To Determine and Copy a Threat Actor's Path",
+    "categories": ["Box"],
+    "ctf": "h4cked",
+    "author": "Dashiel Soleon",
+    "date": "2026-11-11",
+    "url": "https://youtu.be/riWBpoNWaRE",
+    "description": "Walkthrough for 'h4cked' - Box Challenge from TryHackMe"
   }
 ]
