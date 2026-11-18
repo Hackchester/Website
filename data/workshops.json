@@ -42,5 +42,14 @@
         "description": "Bring in whatever you're working on or go through solutions for our CTF last weekend",
         "requirements": "No Prior Knowledge, please bring a working Kali Linux Virtual Machine.",
         "link": ""
+    },
+    {
+        "title": "Intro to Binary Exploitation",
+        "date": "2026-11-18",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "Learn the basics of binary exploitation, how small mistakes can lead to big vulnerabilities",
+        "requirements": "Please bring a laptop with linux based VM (or host)",
+        "link": ""
     }
 ]
