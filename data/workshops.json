@@ -51,5 +51,14 @@
         "description": "Learn the basics of binary exploitation, how small mistakes can lead to big vulnerabilities",
         "requirements": "Please bring a laptop with linux based VM (or host)",
         "link": ""
+    },
+    {
+        "title": "Intro to Lockpicking",
+        "date": "2026-11-25",
+        "time": "15:00 - 17:00",
+        "location": "Kilburn, IT 407",
+        "description": "Have a go at opening basic locks, picking pins and common bypasses",
+        "requirements": "No need for laptops",
+        "link": ""
     }
 ]
